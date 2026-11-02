@@ -37,9 +37,13 @@ install, rebuild or replace its debs as part of depiction work.
 - `scripts/update-repository.sh` replaces only Icon, Depiction and SileoDepiction
   on exact Package matches for com.zengniu.splitview, before index compression
   and Release hashing. Other fields and other packages must remain unchanged.
-- Alpha58 onward is uncompiled, uninstalled, untested source-preview history.
-  Alpha57 has build/install records but no confirmed load. Existing alpha61/64
-  deb filenames do not establish correspondence to those source iterations.
+- The alpha58+ source changes supplied in this conversation have no associated
+  build/install/device-validation records and cannot be assumed to match the
+  source repository's same-version debs. Do not say existing alpha61/64 packages
+  were never published: they are present in the live APT index.
+  Alpha57 has build/install records but no confirmed load. Alpha65 in this round
+  covers the Icon URL/version metadata and companion pages only; no new deb was
+  built or published. Website publication is separate from package publication.
 - Do not invent missing iterations or dates. The alpha42 upward-fullscreen
   experiment was disabled in favor of rebound; alpha46 SBS diagnostics were
   withdrawn after SIGTRAP. Do not describe either as a verified working feature.
