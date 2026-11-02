@@ -8,7 +8,7 @@ on:
       - ".github/workflows/update-repository.yml"
       - "debs/**"
       - "depictions/**"
-      - "scripts/update-repository.sh"
+      - "scripts/**"
       - "CydiaIcon.png"
       - "index.html"
       - "sileo-featured.json"
@@ -32,6 +32,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --yes apt-utils xz-utils
+
+      - name: Check SplitView depiction and metadata isolation
+        run: |
+          bash -n scripts/update-repository.sh scripts/test-repository-metadata.sh
+          python3 -m json.tool depictions/com.zengniu.splitview/depiction.json > /dev/null
+          bash scripts/test-repository-metadata.sh
 
       - name: Build repository
         env:

@@ -17,7 +17,7 @@ done
 name="${REPOSITORY_NAME:-$(basename "$repository_root")}"
 owner="${REPOSITORY_OWNER:-$name}"
 work_dir="$(mktemp -d "$repository_root/.repo-build.XXXXXX")"
-trap 'rm -rf -- "$work_dir"' EXIT
+trap 'rm -rf -- "${work_dir:?}"' EXIT
 site_dir="$work_dir/site"
 mkdir -p "$site_dir"
 
@@ -31,6 +31,32 @@ if ((${#packages[@]} > 0)); then
 else
   : > "$work_dir/Packages"
 fi
+
+# Repository-only display metadata for SplitView. Never rewrite the debs.
+# Do this before compression and Release hashing. Keep every other field,
+# especially Filename, Size and package digests, exactly as apt-ftparchive wrote it.
+awk -v base="https://ys8smjzty4-dot.github.io/ZengNiupackages/depictions/com.zengniu.splitview/" '
+  BEGIN { RS = ""; FS = "\n"; ORS = "\n\n" }
+  {
+    target = 0
+    for (i = 1; i <= NF; i++) {
+      if ($i == "Package: com.zengniu.splitview") target = 1
+    }
+    if (!target) { print $0; next }
+    result = ""; skip = 0
+    for (i = 1; i <= NF; i++) {
+      if ($i ~ /^(Icon|Depiction|SileoDepiction):/) { skip = 1; continue }
+      if ($i ~ /^[ \t]/ && skip) continue
+      skip = 0
+      result = result $i "\n"
+    }
+    result = result "Icon: " base "icon.png\n"
+    result = result "Depiction: " base "index.html\n"
+    result = result "SileoDepiction: " base "depiction.json"
+    print result
+  }
+' "$work_dir/Packages" > "$work_dir/Packages.with-depictions"
+mv "$work_dir/Packages.with-depictions" "$work_dir/Packages"
 
 # Sileo files a package with no Section under nothing; refuse it here.
 awk '
@@ -81,6 +107,6 @@ cp "$work_dir/Packages" "$work_dir/Packages.xz" "$work_dir/Release" "$site_dir/"
 # Pages runs no Jekyll over the site.
 touch "$site_dir/.nojekyll"
 
-rm -rf -- "$repository_root/_site"
-mv "$site_dir" "$repository_root/_site"
+rm -rf -- "${repository_root:?}/_site"
+mv "${site_dir:?}" "${repository_root:?}/_site"
 echo "Built the APT repository in _site/ (${#packages[@]} packages)"
