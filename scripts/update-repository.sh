@@ -45,14 +45,15 @@ awk -v base="https://ys8smjzty4-dot.github.io/ZengNiupackages/depictions/com.zen
     if (!target) { print $0; next }
     result = ""; skip = 0
     for (i = 1; i <= NF; i++) {
-      if ($i ~ /^(Icon|Depiction|SileoDepiction):/) { skip = 1; continue }
+      if ($i ~ /^(Icon|Depiction|SileoDepiction|Description):/) { skip = 1; continue }
       if ($i ~ /^[ \t]/ && skip) continue
       skip = 0
       result = result $i "\n"
     }
     result = result "Icon: " base "icon.png\n"
     result = result "Depiction: " base "index.html\n"
-    result = result "SileoDepiction: " base "depiction.json"
+    result = result "SileoDepiction: " base "depiction.json\n"
+    result = result "Description: 真实应用小窗，支持桌面手势、多档空挂与下探取出；需授权启用。"
     print result
   }
 ' "$work_dir/Packages" > "$work_dir/Packages.with-depictions"
@@ -82,7 +83,7 @@ cp "$work_dir/Packages" "$work_dir/Packages.xz" "$work_dir/indexes/"
 # not hash itself.
 apt-ftparchive \
   -o APT::FTPArchive::Release::Origin="$owner" \
-  -o APT::FTPArchive::Release::Label="$name" \
+  -o APT::FTPArchive::Release::Label="曾牛源" \
   -o APT::FTPArchive::Release::Suite="stable" \
   -o APT::FTPArchive::Release::Version="1.0" \
   -o APT::FTPArchive::Release::Codename="$name" \
