@@ -1,0 +1,27 @@
+{
+  "class": "DepictionTabView",
+  "minVersion": "0.1",
+  "tintColor": "#A66500",
+  "tabs": [
+    {
+      "class": "DepictionStackView",
+      "tabname": "安装说明",
+      "views": [
+        { "class": "DepictionHeaderView", "title": "曾牛分屏 151617 兼容版🐮" },
+        { "class": "DepictionMarkdownView", "markdown": "iOS 15\/16\/17 上的真实场景小窗。\n\n这是「曾牛分屏」的 iOS 15\/16\/17 兼容版本，同样以真实 App 场景呈现小窗，不是截图模拟。支持桌面图标手势打开与恢复小窗，以及基础的底部停靠；主窗可直接操作 App。插件处于内测中，免费授权；作者反馈群号 1121798145。", "useRawFormat": false },
+        { "class": "DepictionSubheaderView", "title": "核心特性" },
+        { "class": "DepictionMarkdownView", "markdown": "真实 App 场景小窗，主窗内可直接操作；桌面图标手势可打开小窗，已有窗口可经桌面图标恢复；支持把窗口停靠到底部，需要时再取出。具体表现随版本演进更新，以安装包为准。", "useRawFormat": false },
+        { "class": "DepictionSubheaderView", "title": "安装与启用" },
+        { "class": "DepictionMarkdownView", "markdown": "添加软件源：https:\/\/ys8smjzty4-dot.github.io\/ZengNiupackages\/\n\n刷新源后搜索 com.zengniu.splitview.compat，按越狱环境选择安装包：rootless 对应 iphoneos-arm64，roothide 对应 iphoneos-arm64e。\n\n首次使用需在插件设置中完成授权，再打开“启用分屏”，按需开启桌面图标手势。App 首次打不开时，可先全屏打开一次再试。", "useRawFormat": false }
+      ]
+    },
+    {
+      "class": "DepictionStackView",
+      "tabname": "更新说明",
+      "views": [
+        { "class": "DepictionHeaderView", "title": "更新说明" },
+        { "class": "DepictionMarkdownView", "markdown": "兼容版本，随主版本演进，具体以安装包为准。", "useRawFormat": false }
+      ]
+    }
+  ]
+}
