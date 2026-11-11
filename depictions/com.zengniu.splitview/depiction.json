@@ -34,7 +34,7 @@
         { "class": "DepictionSubheaderView", "title": "0.8.90–0.8.97 · 内测迭代与细节打磨" },
         { "class": "DepictionMarkdownView", "markdown": "0.8.9 之后的 0.8.9x 版本按内测反馈持续迭代，围绕通知与跨 App 跳转、窗口整理与下探卡片、键盘与旋转等方向继续打磨细节与稳定性。当前源内最新为 0.8.97；该区间缺少逐版本可靠变更记录，按阶段归纳，不逐项编造新增或修复节点。", "useRawFormat": false },
         { "class": "DepictionSubheaderView", "title": "0.8.9 · 通知、跳转与使用说明完善" },
-        { "class": "DepictionMarkdownView", "markdown": "通知弹幕：通知可按设置以弹幕形式呈现，并提供横屏弹幕便于查看提醒；横屏弹幕的显示效果受 App 与系统横竖屏行为影响。\n\n跨 App 跳转：完善应用间打开流程的衔接处理，用于从一个 App 过渡到目标 App；能否直达目标页面取决于目标 App 与系统行为。\n\n下探卡片取出：底部下探卡片在停靠后可再取出恢复为主窗，方便在“停靠查看”和“主窗操作”之间来回切换。\n\n其他：优化窗口切换动画与省电策略、桌面旋转跟随，并补充键盘与多任务卡片的使用说明。兼容性与实际表现仍以安装版本为准。", "useRawFormat": false },
+        { "class": "DepictionMarkdownView", "markdown": "通知弹幕：通知可按设置以弹幕形式呈现，便于及时查看提醒。\n\n跨 App 跳转：完善应用间打开流程的衔接处理，用于从一个 App 过渡到目标 App；能否直达目标页面取决于目标 App 与系统行为。\n\n下探卡片取出：底部下探卡片在停靠后可再取出恢复为主窗，方便在“停靠查看”和“主窗操作”之间来回切换。\n\n其他：优化窗口切换动画与省电策略、桌面旋转跟随，并补充键盘与多任务卡片的使用说明。兼容性与实际表现仍以安装版本为准。", "useRawFormat": false },
         { "class": "DepictionSubheaderView", "title": "0.8.5 · 小牛互动与录屏说明" },
         { "class": "DepictionMarkdownView", "markdown": "新增小牛互动：在插件内提供趣味交互玩法，具体操作方式参阅插件内说明。同时补充录屏相关说明，提示录制与分享时的注意事项（如窗口内容、隐私信息）。该功能以安装版本提供的选项为准。", "useRawFormat": false },
         { "class": "DepictionSubheaderView", "title": "0.8.3 · 通知冷启动" },
