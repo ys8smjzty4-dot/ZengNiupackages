@@ -56,7 +56,7 @@ cp "$work_dir/Packages" "$work_dir/Packages.xz" "$work_dir/indexes/"
 # not hash itself.
 apt-ftparchive \
   -o APT::FTPArchive::Release::Origin="$owner" \
-  -o APT::FTPArchive::Release::Label="$name" \
+  -o APT::FTPArchive::Release::Label="曾牛源（🐮）" \
   -o APT::FTPArchive::Release::Suite="stable" \
   -o APT::FTPArchive::Release::Version="1.0" \
   -o APT::FTPArchive::Release::Codename="$name" \
