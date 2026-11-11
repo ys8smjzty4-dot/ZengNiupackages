@@ -34,7 +34,7 @@ install, rebuild or replace its debs as part of depiction work.
 - Assets live under `depictions/com.zengniu.splitview/`: `icon.png`, `index.html`,
   `depiction.json`. The 87×87 icon was copied from the existing alpha64 package;
   the package itself was not altered.
-- `scripts/update-repository.sh` replaces only Icon, Depiction, SileoDepiction and the repository-only Chinese Description on exact Package matches for com.zengniu.splitview, before index compression and Release hashing. Other fields and other packages must remain unchanged.
+- `scripts/update-repository.sh` replaces only Icon, Depiction, SileoDepiction and the repository-only Chinese Description on exact Package matches for com.zengniu.splitview, before index compression and Release hashing. Other fields must remain unchanged. For exact Package com.zengniu.splitview.compat, replace only Depiction and SileoDepiction with its own depictions/com.zengniu.splitview.compat/ URLs; never point it at the main package page. All other packages remain unchanged.
 - The alpha58+ source changes supplied in this conversation have no associated
   build/install/device-validation records and cannot be assumed to match the
   source repository's same-version debs. Do not say existing alpha61/64 packages

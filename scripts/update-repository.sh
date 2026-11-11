@@ -55,8 +55,25 @@ awk '
 awk -v base="https://ys8smjzty4-dot.github.io/ZengNiupackages/depictions/com.zengniu.splitview/" '
   BEGIN { RS = ""; FS = "\n"; ORS = "" }
   {
-    target = 0
-    for (i = 1; i <= NF; i++) if ($i == "Package: com.zengniu.splitview") target = 1
+    target = 0; compat = 0
+    for (i = 1; i <= NF; i++) {
+      if ($i == "Package: com.zengniu.splitview") target = 1
+      if ($i == "Package: com.zengniu.splitview.compat") compat = 1
+    }
+    if (compat) {
+      compatBase = base
+      sub(/com\.zengniu\.splitview\/$/, "com.zengniu.splitview.compat/", compatBase)
+      skip = 0
+      for (i = 1; i <= NF; i++) {
+        if ($i ~ /^(Depiction|SileoDepiction):/) { skip = 1; continue }
+        if (skip && $i ~ /^[ \t]/) continue
+        skip = 0
+        print $i "\n"
+      }
+      print "Depiction: " compatBase "index.html\n"
+      print "SileoDepiction: " compatBase "depiction.json\n\n"
+      next
+    }
     if (!target) {
       for (i = 1; i <= NF; i++) print (i > 1 ? "\n" : "") $i
       print "\n\n"

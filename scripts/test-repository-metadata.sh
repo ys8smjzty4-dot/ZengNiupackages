@@ -54,16 +54,20 @@ Description: Must not match a package prefix
 
 FIXTURE
 
-# A comparison projection drops ONLY the target package's three allowed fields.
+# A comparison projection drops only the fields allowed for each exact package.
 cat > "$work_dir/project.awk" <<'AWK'
 BEGIN { RS = ""; FS = "\n"; ORS = "\n\n" }
 {
-  target = 0
-  for (i = 1; i <= NF; i++) if ($i == "Package: com.zengniu.splitview") target = 1
-  if (!target) { print $0; next }
+  target = 0; compat = 0
+  for (i = 1; i <= NF; i++) {
+    if ($i == "Package: com.zengniu.splitview") target = 1
+    if ($i == "Package: com.zengniu.splitview.compat") compat = 1
+  }
+  if (!target && !compat) { print $0; next }
   result = ""; skip = 0
   for (i = 1; i <= NF; i++) {
-    if ($i ~ /^(Icon|Depiction|SileoDepiction|Description):/) { skip = 1; continue }
+    if ((target && $i ~ /^(Icon|Depiction|SileoDepiction|Description):/) ||
+        (compat && $i ~ /^(Depiction|SileoDepiction):/)) { skip = 1; continue }
     if ($i ~ /^[ \t]/ && skip) continue
     skip = 0
     result = result (result == "" ? "" : "\n") $i
