@@ -5,7 +5,7 @@
 set -euo pipefail
 
 repository_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "$repository_root"
+cd "${repository_root:?}"
 
 for command_name in apt-ftparchive xz; do
   if ! command -v "$command_name" >/dev/null 2>&1; then
@@ -32,34 +32,7 @@ else
   : > "$work_dir/Packages"
 fi
 
-# Repository-only display metadata for SplitView. Never rewrite the debs.
-# Do this before compression and Release hashing. Keep every other field,
-# especially Filename, Size and package digests, exactly as apt-ftparchive wrote it.
-awk -v base="https://ys8smjzty4-dot.github.io/ZengNiupackages/depictions/com.zengniu.splitview/" '
-  BEGIN { RS = ""; FS = "\n"; ORS = "\n\n" }
-  {
-    target = 0
-    for (i = 1; i <= NF; i++) {
-      if ($i == "Package: com.zengniu.splitview") target = 1
-    }
-    if (!target) { print $0; next }
-    result = ""; skip = 0
-    for (i = 1; i <= NF; i++) {
-      if ($i ~ /^(Icon|Depiction|SileoDepiction|Description):/) { skip = 1; continue }
-      if ($i ~ /^[ \t]/ && skip) continue
-      skip = 0
-      result = result $i "\n"
-    }
-    result = result "Icon: " base "icon.png\n"
-    result = result "Depiction: " base "index.html\n"
-    result = result "SileoDepiction: " base "depiction.json\n"
-    result = result "Description: 真实应用小窗，支持桌面手势、多档空挂与下探取出；需授权启用。"
-    print result
-  }
-' "$work_dir/Packages" > "$work_dir/Packages.with-depictions"
-mv "$work_dir/Packages.with-depictions" "$work_dir/Packages"
-
-# Sileo files a package with no Section under nothing; refuse it here.
+# A package with no Section is filed under nothing; refuse it here.
 awk '
   BEGIN { RS = ""; FS = "\n" }
   {
@@ -69,7 +42,7 @@ awk '
       if ($field ~ /^Section: /) section = substr($field, 10)
     }
     if (package != "" && section == "") {
-      printf "Package %s has no Section field, which Sileo needs.\n", package > "/dev/stderr"
+      printf "Package %s has no Section field, which package managers file it by.\n", package > "/dev/stderr"
       exit 1
     }
   }
@@ -83,7 +56,7 @@ cp "$work_dir/Packages" "$work_dir/Packages.xz" "$work_dir/indexes/"
 # not hash itself.
 apt-ftparchive \
   -o APT::FTPArchive::Release::Origin="$owner" \
-  -o APT::FTPArchive::Release::Label="曾牛源" \
+  -o APT::FTPArchive::Release::Label="$name" \
   -o APT::FTPArchive::Release::Suite="stable" \
   -o APT::FTPArchive::Release::Version="1.0" \
   -o APT::FTPArchive::Release::Codename="$name" \
@@ -101,6 +74,15 @@ for file in index.html CydiaIcon.png sileo-featured.json; do
     cp "$file" "$site_dir/"
   fi
 done
+# The home page's QR code: Irisin's add-source link for the address
+# Pages serves, which the Camera opens in Irisin. Left out without
+# qrencode or an address, and the page shows the card without it.
+source_url="${SOURCE_URL:-}"
+if [[ -n "$source_url" ]] && command -v qrencode >/dev/null 2>&1; then
+  [[ "$source_url" == */ ]] || source_url="$source_url/"
+  qrencode -t SVG --svg-path -m 0 --foreground=1F232B -o "$site_dir/qr.svg" \
+    "irisin://repository/add?url=$source_url"
+fi
 if [[ -d depictions ]]; then
   cp -R depictions "$site_dir/depictions"
 fi
@@ -108,6 +90,7 @@ cp "$work_dir/Packages" "$work_dir/Packages.xz" "$work_dir/Release" "$site_dir/"
 # Pages runs no Jekyll over the site.
 touch "$site_dir/.nojekyll"
 
+# Never on an empty path: an empty root would make this /_site.
 rm -rf -- "${repository_root:?}/_site"
-mv "${site_dir:?}" "${repository_root:?}/_site"
+mv "$site_dir" "${repository_root:?}/_site"
 echo "Built the APT repository in _site/ (${#packages[@]} packages)"

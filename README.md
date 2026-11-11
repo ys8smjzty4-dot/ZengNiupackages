@@ -2,7 +2,7 @@
 
 An APT source for jailbroken iOS, published with Apelin.
 
-Add `https://ys8smjzty4-dot.github.io/ZengNiupackages/` in Sileo, Zebra or Irisin.
+Add `https://ys8smjzty4-dot.github.io/ZengNiupackages/` in Irisin.
 
 ## How it works
 
@@ -14,7 +14,7 @@ Add `https://ys8smjzty4-dot.github.io/ZengNiupackages/` in Sileo, Zebra or Irisi
   `Packages.xz` and `Release`, and publishes the site to GitHub Pages.
   Never commit those indexes or `_site/`.
 - `depictions/<package id>/` holds a package's depiction, icon and
-  banner; `sileo-featured.json` the banners Sileo shows at the top of the
+  banner; `sileo-featured.json` the banners Irisin shows at the top of the
   source; `CydiaIcon.png`, when present, the source's icon.
 
 Pages may serve the previous index for up to ten minutes after a push.
