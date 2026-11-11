@@ -17,6 +17,8 @@
         { "class": "DepictionMarkdownView", "markdown": "窗口切换与操作配有动画，可按安装版本提供的选项调整动画与省电相关策略；实际功耗受窗口数量、App 负载及系统状态影响，不承诺固定节能效果。小牛互动提供趣味交互，具体操作及录屏注意事项请参阅插件内说明。", "useRawFormat": false },
         { "class": "DepictionSubheaderView", "title": "键盘与兼容限制" },
         { "class": "DepictionMarkdownView", "markdown": "横竖屏可分别选择内置／外置键盘位置，部分版本提供横屏外置键盘拖动选项。键盘归属、输入法、内容避让、旋转与多任务切换在不同 App 上可能表现不同。\n\n部分功能仍属实验或兼容性探索，尚需逐 App、逐场景实际验证。不保证全面兼容、所有通知跳转成功或所有窗口持续运行；遇到异常时可先关闭相关选项再试。", "useRawFormat": false },
+        { "class": "DepictionSubheaderView", "title": "防骗提醒" },
+        { "class": "DepictionMarkdownView", "markdown": "本插件免费授权，请勿向任何渠道付费购买。安装包请从本软件源获取；对来源不明的安装包、代装或收费推广请保持警惕，谨防上当受骗。如有疑问可在反馈群 1121798145 核实。", "useRawFormat": false },
         { "class": "DepictionSubheaderView", "title": "安装与启用" },
         { "class": "DepictionMarkdownView", "markdown": "添加软件源：https://ys8smjzty4-dot.github.io/ZengNiupackages/\n\n刷新源后搜索 com.zengniu.splitview，按系统与越狱环境选择安装包：rootless 对应 iphoneos-arm64，roothide 对应 iphoneos-arm64e。\n\n首次使用需在插件设置中完成授权，再打开“启用分屏”，按需开启手势。App 首次打不开时，可先全屏打开一次再试。", "useRawFormat": false },
         { "class": "DepictionSubheaderView", "title": "版本与兼容性" },
