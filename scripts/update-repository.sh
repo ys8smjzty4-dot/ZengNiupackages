@@ -48,6 +48,55 @@ awk '
   }
 ' "$work_dir/Packages"
 
+# Swap the target package's display metadata for the repository's own:
+# icon and depiction point at the Pages depiction, the Description becomes
+# the repository-only Chinese blurb. Exact Package match only, so other
+# packages and every other field pass through untouched.
+awk -v base="https://ys8smjzty4-dot.github.io/ZengNiupackages/depictions/com.zengniu.splitview/" '
+  BEGIN { RS = ""; FS = "\n"; ORS = "" }
+  {
+    target = 0
+    for (i = 1; i <= NF; i++) if ($i == "Package: com.zengniu.splitview") target = 1
+    if (!target) {
+      for (i = 1; i <= NF; i++) print (i > 1 ? "\n" : "") $i
+      print "\n\n"
+      next
+    }
+    icon = 0; web = 0; native = 0; desc = 0; done = 0
+    out = ""
+    for (i = 1; i <= NF; i++) {
+      line = $i
+      if (line ~ /^Icon: /) {
+        out = out (done++ ? "\n" : "") "Icon: " base "icon.png"; icon = 1
+        while (i < NF && $(i + 1) ~ /^[ \t]/) { i++ }
+        continue
+      }
+      if (line ~ /^Depiction: /) {
+        out = out (done++ ? "\n" : "") "Depiction: " base "index.html"; web = 1
+        while (i < NF && $(i + 1) ~ /^[ \t]/) { i++ }
+        continue
+      }
+      if (line ~ /^SileoDepiction: /) {
+        out = out (done++ ? "\n" : "") "SileoDepiction: " base "depiction.json"; native = 1
+        while (i < NF && $(i + 1) ~ /^[ \t]/) { i++ }
+        continue
+      }
+      if (line ~ /^Description: /) {
+        out = out (done++ ? "\n" : "") "Description: 真实应用小窗，支持桌面手势、多档空挂与下探取出；需授权启用。"
+        desc = 1
+        while (i < NF && $(i + 1) ~ /^[ \t]/) { i++ }
+        continue
+      }
+      out = out (done++ ? "\n" : "") line
+    }
+    print out
+    if (!icon) print "\nIcon: " base "icon.png"
+    if (!web) print "\nDepiction: " base "index.html"
+    if (!native) print "\nSileoDepiction: " base "depiction.json"
+    print "\n\n"
+  }
+' "$work_dir/Packages" > "$work_dir/Packages.new" && mv "$work_dir/Packages.new" "$work_dir/Packages"
+
 xz -9e -c "$work_dir/Packages" > "$work_dir/Packages.xz"
 mkdir -p "$work_dir/indexes"
 cp "$work_dir/Packages" "$work_dir/Packages.xz" "$work_dir/indexes/"

@@ -44,7 +44,7 @@ Package: com.zengniu.splitview
 Version: 0.1.0~alpha64
 Architecture: iphoneos-arm64
 Section: Tweaks
-Description: Target with no existing display fields
+Description: 真实应用小窗，支持桌面手势、多档空挂与下探取出；需授权启用。
 SHA256: unchanged-second
 
 Package: com.zengniu.splitview.extra
@@ -63,7 +63,7 @@ BEGIN { RS = ""; FS = "\n"; ORS = "\n\n" }
   if (!target) { print $0; next }
   result = ""; skip = 0
   for (i = 1; i <= NF; i++) {
-    if ($i ~ /^(Icon|Depiction|SileoDepiction):/) { skip = 1; continue }
+    if ($i ~ /^(Icon|Depiction|SileoDepiction|Description):/) { skip = 1; continue }
     if ($i ~ /^[ \t]/ && skip) continue
     skip = 0
     result = result (result == "" ? "" : "\n") $i
@@ -94,6 +94,9 @@ check_transform() {
         if ($i == "SileoDepiction: " base "depiction.json") native++
       }
       if (fields != 3 || icon != 1 || web != 1 || native != 1) failed = 1
+      descriptions = 0
+      for (i = 1; i <= NF; i++) if ($i == "Description: 真实应用小窗，支持桌面手势、多档空挂与下探取出；需授权启用。") descriptions++
+      if (descriptions != 1) failed = 1
     }
     END { if (failed || count != expected) exit 1 }
   ' "$work_dir/result"
